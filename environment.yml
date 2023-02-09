@@ -1,4 +1,4 @@
-name: temoa-py3
+name: Temoa_Hurricanes
 channels:
     - defaults
     - conda-forge
