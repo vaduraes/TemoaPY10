@@ -444,54 +444,38 @@ class TemoaSolverInstance(object):
 
 
 def get_solvers():
-	"""Return the solvers avaiable on the system."""
-	from logging import getLogger
+    import pyomo.environ as pyo
+    from itertools import compress
+	# pyomo>6.0 
+    pyomo_solvers_list = pyo.SolverFactory.__dict__['_cls'].keys()
+    available_solvers = []
+    
+    for s in pyomo_solvers_list:
+        if any(ele == s for ele in ["cplex",'gurobi',"cbc","glpk","ipopt"]):
+            try:
+                if pyo.SolverFactory(s).available()==1:
+                    available_solvers.append(s)
+            except:
+                pass
 
-	logger = getLogger('pyomo.solvers')
-	logger_status = logger.disabled
-	logger.disabled = True  # no need for warnings: it's what we're testing!
-
-	available_solvers = set()
-	try:
-		services = SF.services() # pyutilib version <= 5.6.3
-	except RuntimeError as e:
-		services = SF # pyutilib version >= 5.6.4
-
-	for sname in services:
-		# initial underscore ('_'): Pyomo's method to mark non-public plugins
-		if '_' == sname[0]: continue
-
-		solver = SF( sname )
-
-		try:
-			if not solver: continue
-		except ApplicationError as e:
-			continue
-
-		if 'os' == sname: continue     # Workaround current bug in Coopr
-		if not solver.available( exception_flag=False ): continue
-		available_solvers.add( sname )
-
-	logger.disabled = logger_status  # put back the way it was.
-
-	if available_solvers:
-		if 'cplex' in available_solvers:
-			default_solver = 'cplex'
-		elif 'gurobi' in available_solvers:
-			default_solver = 'gurobi'
-		elif 'cbc' in available_solvers:
-			default_solver = 'cbc'
-		elif 'glpk' in available_solvers:
-			default_solver = 'glpk'
-		else:
-			default_solver = iter(available_solvers).next()
-	else:
-		default_solver = 'NONE'
-		SE.write('\nNOTICE: Pyomo did not find any suitable solvers.  Temoa will '
+    if available_solvers:
+        if 'cplex' in available_solvers:
+            default_solver = 'cplex'
+        elif 'gurobi' in available_solvers:
+            default_solver = 'gurobi'
+        elif 'cbc' in available_solvers:
+            default_solver = 'cbc'
+        elif 'glpk' in available_solvers:
+            default_solver = 'glpk'
+        else:
+            default_solver = iter(available_solvers).next()
+    else:
+        default_solver = 'NONE'
+        SE.write('\nNOTICE: Pyomo did not find any suitable solvers.  Temoa will '
 		   'not be able to solve any models.  If you need help, ask on the '
 		   'Temoa Project forum: http://temoaproject.org/\n\n' )
 
-	return (available_solvers, default_solver)
+    return (available_solvers, default_solver)
 
 
 
