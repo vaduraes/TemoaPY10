@@ -446,7 +446,7 @@ class TemoaSolverInstance(object):
 def get_solvers():
     import pyomo.environ as pyo
     from itertools import compress
-	# pyomo>6.0 
+	# pyomo>6.0 (showing  some warnings need to fix)
     pyomo_solvers_list = pyo.SolverFactory.__dict__['_cls'].keys()
     available_solvers = []
     
