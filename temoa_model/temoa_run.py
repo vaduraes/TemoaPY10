@@ -36,8 +36,7 @@ import re as reg_exp
 from argparse import Namespace
 from os import sep
 
-from pyutilib.services import TempfileManager
-from pyutilib.services import TempfileManager
+import pyomo.common.tempfiles as TempfileManager
 from pyutilib.common import ApplicationError
 
 from sys import version_info, exit
@@ -329,19 +328,22 @@ class TemoaSolverInstance(object):
 			self.txt_file.write( 'Reading data files.')
 			begin = time()
 			duration = lambda: time() - begin
-
+			
+			
 			modeldata = DataPortal( model=self.model )
+			
 			# Recreate the pyomo command's ability to specify multiple "dot dat" files
 			# on the command lin
 			for fname in self.options.dot_dat:
 				if fname[-4:] != '.dat':
 					msg = "InputError: expecting a dot dat (e.g., data.dat) file, found '{}'\n"
 					raise Exception( msg.format( fname ))
+
 				modeldata.load( filename=fname )
 			yield '\t\t\t\t\t[%8.2f]\n' % duration()
 			SE.write( '\r[%8.2f]\n' % duration() )
 			self.txt_file.write( '[%8.2f]\n' % duration() )
-
+	
 			yield 'Creating Temoa model instance.'
 			SE.write( '[        ] Creating Temoa model instance.'); SE.flush()
 			self.txt_file.write( 'Creating Temoa model instance.')
@@ -349,7 +351,7 @@ class TemoaSolverInstance(object):
 			self.model.dual = Suffix(direction=Suffix.IMPORT)
 			#self.model.rc = Suffix(direction=Suffix.IMPORT)
 			#self.model.slack = Suffix(direction=Suffix.IMPORT)
-
+			
 			self.instance = self.model.create_instance( modeldata )
 			yield '\t\t\t\t[%8.2f]\n' % duration()
 			SE.write( '\r[%8.2f]\n' % duration() )
@@ -446,7 +448,7 @@ class TemoaSolverInstance(object):
 def get_solvers():
     import pyomo.environ as pyo
     from itertools import compress
-	# pyomo>6.0 (showing  some warnings need to fix)
+	# pyomo>6.0
     pyomo_solvers_list = pyo.SolverFactory.__dict__['_cls'].keys()
     available_solvers = []
     

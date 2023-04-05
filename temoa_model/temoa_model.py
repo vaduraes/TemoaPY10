@@ -35,7 +35,7 @@ def temoa_create_model(name="Temoa"):
     instantiation.
   """
     M = TemoaModel(name)
-
+    
     # ---------------------------------------------------------------
     # Define sets. 
     # Sets are collections of items used to index parameters and variables
@@ -48,7 +48,9 @@ def temoa_create_model(name="Temoa"):
     # Define time period vintages to track capacity installation
     M.vintage_exist = Set(ordered=True, initialize=init_set_vintage_exist)
     M.vintage_optimize = Set(ordered=True, initialize=init_set_vintage_optimize)
-    M.vintage_all = M.time_exist | M.time_optimize
+
+    M.vintage_all =M.time_exist | M.time_optimize #On pyomo> 6.4 warning about <subsets(expand_all_set_operators=False)>
+
     # Perform some basic validation on the specified time periods.
     M.validate_time = BuildAction(rule=validate_time)
 
@@ -65,7 +67,8 @@ def temoa_create_model(name="Temoa"):
     # Define technology-related sets
     M.tech_resource = Set()
     M.tech_production = Set()
-    M.tech_all = M.tech_resource | M.tech_production
+    M.tech_all = M.tech_resource | M.tech_production  #On pyomo> 6.4 warning about <subsets(expand_all_set_operators=False)>
+
     M.tech_baseload = Set(within=M.tech_all)
     M.tech_storage = Set(within=M.tech_all)
     M.tech_reserve = Set(within=M.tech_all)
@@ -84,8 +87,8 @@ def temoa_create_model(name="Temoa"):
     M.commodity_demand = Set()
     M.commodity_emissions = Set()
     M.commodity_physical = Set()
-    M.commodity_carrier = M.commodity_physical | M.commodity_demand
-    M.commodity_all = M.commodity_carrier | M.commodity_emissions
+    M.commodity_carrier = M.commodity_physical | M.commodity_demand  #On pyomo> 6.4 warning about <subsets(expand_all_set_operators=False)>
+    M.commodity_all = M.commodity_carrier | M.commodity_emissions  #On pyomo> 6.4 warning about <subsets(expand_all_set_operators=False)>
 
     # Define sets for MGA weighting
     M.tech_mga = Set(within=M.tech_all)
