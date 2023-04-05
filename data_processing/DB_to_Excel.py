@@ -100,7 +100,7 @@ def make_excel(ifile, ofile, scenario):
 	for col, val in enumerate(df_costs.columns.values):
 		worksheet.write(0, col, val, header_format)
 
-	writer.save()
+	writer.close()
 
 	#prepare results for IamDataFrame
 	df_emissions_raw['scenario']=scenario
