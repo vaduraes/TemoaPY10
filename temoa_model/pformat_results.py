@@ -325,7 +325,8 @@ def pformat_results ( pyomo_instance, pyomo_result, options ):
 		# assumption 3: Unlike other output tables in which Ri-Rj and Rj-Ri entries
 		# are allowed in the region column, for the Output_Costs table the region 
 		#to the right of the hyphen sign gets the costs.
-		for i in m.RegionalExchangeCapacityConstraint_rrtv.iterkeys():
+		
+		for i in m.RegionalExchangeCapacityConstraint_rrtv:
 			reg_dir1  = i[0]+"-"+i[1]
 			reg_dir2 = i[1]+"-"+i[0]
 			tech = i[2]
