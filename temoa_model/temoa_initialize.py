@@ -500,7 +500,9 @@ def init_set_vintage_exist ( M ):
 def init_set_vintage_optimize ( M ):
 	return sorted( M.time_optimize )
 
-
+#CreateRegionalIndices leads to "nondeterministic behavior warning in Pyomo>6" which can be ignored.
+#In the future regional_indices needs to be defined inside the .sql file
+#Which would lead to additioal changes in temoa_rules and temoa_model
 def CreateRegionalIndices ( M ):
 	regional_indices = set()
 	for r_i in M.regions:
@@ -511,7 +513,7 @@ def CreateRegionalIndices ( M ):
 				regional_indices.add(r_i)
 			else:
 				regional_indices.add(r_i+"-"+r_j)
-	return regional_indices
+	return regional_indices 
 
 
 # ---------------------------------------------------------------

@@ -52,9 +52,11 @@ from collections import defaultdict
 from temoa_rules import TotalCost_rule, ActivityByTech_Constraint
 from temoa_mga   import ActivityObj_rule, SlackedObjective_rule, PreviousAct_rule
 import traceback
-
+import warnings
 
 signal(SIGINT, default_int_handler)
+
+
 
 
 '''
@@ -316,7 +318,7 @@ class TemoaSolverInstance(object):
 
 	def create_temoa_instance (self):
 		"""Create a single instance of Temoa."""
-
+		#Ignore Warnings Already Checked as not a Problem
 		try:
 			if self.options.keepPyomoLP:
 				yield '\nSolver will write file: {}\n\n'.format( self.options.scenario + '.lp' )
