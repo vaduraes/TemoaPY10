@@ -1,7 +1,7 @@
-Reading data files.[    0.02]
-Creating Temoa model instance.[    0.10]
-Solving.[    0.19]
-Calculating reporting variables and formatting results.[    0.47]
+Reading data files.[    0.03]
+Creating Temoa model instance.[    0.09]
+Solving.[    0.17]
+Calculating reporting variables and formatting results.[    0.41]
 Model name: Temoa
 Objective function value (TotalCost): 36535.631257498164
 Non-zero variable values:

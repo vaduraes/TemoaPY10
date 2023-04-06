@@ -303,8 +303,6 @@ class TemoaSolver(object):
 			traceback.print_exc()
 			SE.flush()
 
-
-
 '''
 This class is for creating one temoa solver instance. It is used by TemoaSolver.
 (Multiple instances are created for MGA/non-MGA options).
