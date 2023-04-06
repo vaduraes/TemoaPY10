@@ -224,7 +224,7 @@ def temoa_create_model(name="Temoa"):
     M.EmissionActivity = Param(M.EmissionActivity_reitvo)
     M.MinGenGroupWeight = Param(M.RegionalIndices, M.tech_groups, M.groups, default = 0)
     M.MinGenGroupTarget = Param(M.time_optimize, M.groups)
-    M.LinkedTechs = Param(M.RegionalIndices, M.tech_all, M.commodity_emissions)
+    M.LinkedTechs = Param(M.RegionalIndices, M.tech_all, M.commodity_emissions, within=Any)
 
     # Define parameters associated with electric sector operation
     M.RampUp = Param(M.regions, M.tech_ramping)
